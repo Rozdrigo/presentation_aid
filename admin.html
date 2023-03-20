@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração</title>
+</head>
+<body>
+    <!-- ELEMENTS -->
+    <div id="renderbody">
+        <div id="top-side">
+            <div id="list-users"></div>
+            <div id="screen-options">
+                <div class="layer-buttons" id="screen-buttons">
+                    
+                </div>
+                <div id="screen-comand">
+                    <label>QRCODE:</label>
+                    <textarea onchange="" id="for-qrcode" type="text">http://192.168.0.9:3000</textarea>
+                </div>
+            </div>
+        </div>
+        <div id="bottom-side">
+            <div class="half-heigth-full-width">                    
+                <button class="screen-button" onclick="emitbomb()">
+                    DISTRIBUIR FUNÇÕES [BOMBA]
+                </button>
+                <button class="screen-button" onclick="reload()">
+                    RECARREGAR PAGINAS
+                </button>
+                <button class="screen-button" onclick="start_stopwatch()">
+                    COMEÇAR RELOGIO
+                </button>
+                <button class="screen-button" onclick="playsax()">
+                    TOCAR MUSICA
+                </button>
+            </div>
+            <div id="image-box" class="half-heigth-full-width">
+            </div>
+        </div>
+    </div>
+    <!-- ### -->
+
+    <!-- STYLES -->
+    <style>
+        #image-box{
+            display: flex;
+            flex-flow: column wrap;
+            overflow-x: scroll;
+        }
+        .image-component{
+            height: 20dvw;
+            width: 20dvw;
+            margin-left: 5px;
+            margin-bottom: 5px;
+            overflow: hidden;
+            border: solid 3px white;
+        }
+        .half-heigth-full-width{
+            height: 50%;
+            width: 100%;
+            overflow-y: scroll;
+        }
+        .layer-buttons{
+            height: 50%;
+            width: 100%;
+            overflow-y: scroll;
+        }
+        #screen-comand{
+            background-color: #fe000054;
+            height: 50%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #screen-comand textarea{
+            padding: 5px;
+            height: 60%;
+            width: 80%;
+            border: none;
+            border-radius: 5px;
+            background: #00000074;
+            text-align: start;
+            resize: none;
+        }
+        *{
+            color: white;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-transform: uppercase;
+            font-size: x-small;
+            font-weight: bold;
+        }
+        .list-item{
+            padding: 10px;
+            width: calc(100% - 30px);
+            border-radius: 5px;
+            margin: 5px;
+            background: rgba(255, 0, 221, 0.485);
+            text-align: center;
+        }
+        .screen-button{
+            height: 40px;
+            padding: 10px;
+            width: calc(100% - 10px);
+            border-radius: 5px;
+            border: none;
+            margin: 5px  5px 0 5px;
+            background: rgba(0, 13, 255, 0.485);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: x-small;
+            font-weight: bold;
+        }
+        .screen-button:active{
+            opacity: 0.9;
+        }
+        #top-side{
+            display: flex;
+            width: 100%;
+            height: 50%;
+        }
+        #list-users{
+            width: 50%;
+            height: 100%;
+            overflow-y: scroll;
+            background-color: rgba(50, 255, 0, 0.2)
+        }
+        #screen-options{
+            width: 50%;
+            height: 100%;
+            background-color: rgba(125, 117, 185, 0.2);
+        }
+        #bottom-side{
+            width: 100%;
+            height: 50%;
+        }
+        body{
+            height: 100dvh;
+            width: 100dvw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            background-color: #262938;
+        }
+        #renderbody{
+            overflow: hidden;
+            height: calc(100% - 40px);
+            width: calc(100% - 40px);
+            border-radius: 10px;
+            background: #FEBD00;
+        }
+    </style>
+    <!-- ### -->
+
+    <!-- SCRIPTS -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+    </script>
+    <script>
+        function init(){
+            request_pages();
+            load_users();
+            request_images();
+            document.getElementById("for-qrcode").addEventListener("keyup", function(){
+                socket.emit("qrcode", document.getElementById("for-qrcode").value);
+            })
+        }
+        init();
+        
+        function emit_image(src){
+            socket.emit('image', src);
+        }
+
+        function request_pages(){
+            fetch('/pages')
+            .then(async function(response) {
+                let obj = await response.json()
+                obj.pages.map(element => {
+                    document.getElementById("screen-buttons")
+                    .innerHTML += `<button class="screen-button" onclick="change_screen('${element}')">${element}</button>`
+                })
+            })
+        }
+        function request_images(){
+            fetch('/images/files')
+            .then(async function(response) {
+                let obj = await response.json()
+                console.log(obj)
+                obj.map(element => {
+                    document.getElementById("image-box")
+                    .innerHTML += `<img onclick="emit_image('${element}')" src="${element}" class="image-component"/>`
+                })
+            })
+        }
+        function load_users(){
+            socket.on("listusers", (instance) => {
+                document.getElementById("list-users").innerHTML = "";
+                instance.map(a => {
+                    document.getElementById("list-users").innerHTML += `<div class="list-item"">${a}</div>`;
+                })
+            })
+        }
+        
+        function change_screen(screen_name){
+            socket.emit("action", { action: "changescreen", param: screen_name })
+        }
+
+        function reload(){
+            socket.emit('action', {"action": "reload"});
+        }
+
+        function emitbomb(){
+            socket.emit('distribute_functions');
+        }
+
+        function start_stopwatch(){
+            socket.emit('start_stopwatch');
+        }
+
+        function playsax(){
+            socket.emit('action', {"action": "playsax"})
+        }
+
+    </script>
+    <!-- ### -->
+</body>
+</html>

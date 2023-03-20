@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rodrigo Silva Coelho</title>
+    <script src="/lottieplayer.js"></script>
+</head>
+
+<body>
+    <!-- ELEMENTS -->
+    <lottie-player
+        autoplay
+        loop
+        id="force-rotate"
+        class="rotate-phone"
+        mode="normal"
+        src="/rotate_phone.json"
+        style="width: 320px; display: none;"
+        >
+    </lottie-player>
+    <object id="master" type="text/html" data="/inicial"></object>
+    <!-- ### -->
+
+    <!-- STYLES -->
+    <style>
+        body {
+            height: 100dvh;
+            width: 100dvw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            background-color: #262938;
+        }
+        .rotate-phone{
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 20px;
+            width: fit-content;
+            height: fit-content;
+        }
+        #master {
+            height: calc(100dvh - 40px);
+            width: calc(100dvw - 40px);
+            border-radius: 10px;
+        }
+    </style>
+    <!-- ### -->
+
+    <!-- SCRIPTS -->
+    <script src="/scripts/p5.min.js"></script>
+    <script src="/scripts/sound.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io("/users");
+    </script>
+    <script>
+        let mySound;
+        let soundStatus = false;
+
+        function setup() {
+            createCanvas(0, 0);
+            soundFormats('mp3');
+            mySound = loadSound('/sax.mp3');
+        }
+
+        const actions = {
+            playsax: function(argument){
+                if(!soundStatus){
+                    mySound.play();
+                    soundStatus = !soundStatus;
+                }else{
+                    mySound.pause();
+                    soundStatus = !soundStatus;
+                }
+            },
+            printmenssage: function (argument) {
+                console.log(argument)
+            },
+            changescreen: function (argument) {
+                document.getElementById("master").setAttribute('data', "/" + argument);
+            },
+            vibrate: function (argument) {
+                navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
+            },
+            reload: function (){
+                document.location.reload(true);
+            }
+        }
+        socket.on("receiveaction", (params) => {
+            actions[params.action](params.param);
+        })
+    </script>
+    <!-- ### -->
+
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- ELEMENTS -->
+    <div id="renderbody"></div>
+    <!-- ### -->
+
+    <!-- STYLES -->
+    <style>
+        body {
+            height: 100dvh;
+            width: 100dvw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        #renderbody {
+            height: 100%;
+            width: 100%;
+            border-radius: 10px;
+            background: #d400fe;
+        }
+    </style>
+    <!-- ### -->
+
+    <!-- SCRIPTS -->
+    <script src="/scripts/p5.min.js"></script>
+    <script>
+        var iter = 0;
+        var desc = 1
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+        }
+        function draw() {
+            if (iter > 1)
+                desc = -1;
+            if (iter <= 0.001)
+                desc = 1;
+
+            iter += 0.001 * desc;
+
+            background(0)
+            translate(width / 2, height / 2);
+            stroke(30, iter * 88, iter * 255)
+            fibonacci(iter, iter);
+        }
+        function fibonacci(p = 0.1, s = 0.1) {
+            let sp = s + p;
+            // rect(0, 0, s, s);
+            noFill()
+            arc(s, 0, s * 2, s * 2, PI / 2, PI)
+            rotate(PI / 2)
+            translate(-sp, -sp);
+            if (s < 1000)
+                fibonacci(s, sp)
+        }
+    </script>
+    <!-- ### -->
+</body>
+
+</html>

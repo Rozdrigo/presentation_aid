@@ -1,0 +1,10 @@
+[
+ "1. O botão quatro não forma par com o fio verde;",
+ "2. O botão um, assim como o dois não formam par com o fio vermelho;",
+ "3. O botão um forma par com o primeiro fio ao lado esquerdo do fio do botão três;",
+ "4. O fio azul forma par com um botão de numero par;",
+ "5. O botão dois não forma par com o fio azul;",
+ "6. O botão dois deve ser o primeiro botão a ser precionado;",
+ "7. O fio verde deve ser o segundo a ser cortado;",
+ "8. O fio vermelho deve ser o ultimo fio a ser cortado;"
+]

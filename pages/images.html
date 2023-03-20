@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="renderbody"></div>
+    <style>
+        body {
+            height: 100dvh;
+            width: 100dvw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+        #renderbody input{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        #renderbody {
+            height: 100%;
+            width: 100%;
+            border-radius: 10px;
+            background: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow-y: scroll;
+        }
+        .image-render{
+            object-fit: contain;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+</script>
+<script>
+    socket.on("loadImage", (params) => {
+        document.getElementById("renderbody").innerHTML = `<img class="image-render" src="${params}"/>`
+    })
+</script>
+</html>

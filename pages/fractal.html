@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="renderbody"></div>
+    <style>
+        body {
+            height: 100dvh;
+            width: 100dvw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+        #renderbody input{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        #renderbody {
+            height: 100%;
+            width: 100%;
+            border-radius: 10px;
+            background: #006d7e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow-y: scroll;
+        }
+    </style>
+    <script src="/scripts/p5.min.js"></script>
+    <script>
+        let slider;
+        let mult = 0;
+        let angl = 0;
+        function setup() {
+            let min = windowWidth > windowHeight ? windowHeight : windowWidth;
+            let size = min/100 * 85;
+            let myCanvas = createCanvas(size, size*0.9);
+            myCanvas.parent("renderbody");
+
+            mul_slider = createSlider(0, 0.83, 0.7, 0.005);
+            mul_slider.style('width', `${size-20}px`);
+            mul_slider.parent("renderbody");
+
+            ang_slider = createSlider(5.5, 20, 8, 0.5);
+            ang_slider.style('width', `${size-20}px`);
+            ang_slider.parent("renderbody");
+        }
+
+        function draw() {
+            clear();
+            strokeWeight(1.5);
+            stroke(120, 64, 8)
+            translate(width / 2, height)
+            three(50, 120, 64, 8)
+
+            mult = mul_slider.value();
+            angl = ang_slider.value();
+        }
+
+        function three(len, r, g, b) {
+            line(0, 0, 0, - len)
+            translate(0, -len);
+            if (len > 8) {
+                push();
+                rotate(PI / angl);
+                stroke(r, g, b);
+                three(len * mult, r * 0.8, g * 1.2, b * 0.8);
+                pop();
+                push();
+                rotate(-PI / angl);
+                stroke(r, g, b);
+                three(len * mult, r * 0.8, g * 1.2, b * 0.8);
+                pop();
+            }
+        }
+    </script>
+</body>
+
+</html>
