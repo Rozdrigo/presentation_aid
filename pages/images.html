@@ -44,12 +44,19 @@
         }
     </style>
 </body>
-
+<script src="/jquery.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const socket = io();
 </script>
 <script>
+    $.ajax({
+        url: '/getstate/image',
+        success: function(response){
+            if(response)
+                document.getElementById("renderbody").innerHTML = `<img class="image-render" src="${response}"/>`
+        }
+    })
     socket.on("loadImage", (params) => {
         document.getElementById("renderbody").innerHTML = `<img class="image-render" src="${params}"/>`
     })

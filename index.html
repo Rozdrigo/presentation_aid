@@ -55,6 +55,7 @@
     <!-- ### -->
 
     <!-- SCRIPTS -->
+    <script src="/jquery.js"></script>
     <script src="/scripts/p5.min.js"></script>
     <script src="/scripts/sound.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
@@ -64,6 +65,14 @@
     <script>
         let mySound;
         let soundStatus = false;
+        
+
+        $.ajax({
+            url: '/getstate/screen',
+            success: function(response){
+                actions[response.action](response.param);
+            }
+        })
 
         function setup() {
             createCanvas(0, 0);
@@ -94,6 +103,7 @@
                 document.location.reload(true);
             }
         }
+        
         socket.on("receiveaction", (params) => {
             actions[params.action](params.param);
         })

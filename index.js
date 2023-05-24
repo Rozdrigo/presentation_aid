@@ -118,19 +118,41 @@ app.get('/users', (req, res) => {
     res.sendFile(__dirname + '/admin.html');
 });
 
+var screen_state;
+var image_state;
+var code_state;
+
+app.get('/getstate/screen', (req, res) => {
+    res.json(screen_state);
+})
+
+app.get('/getstate/image', (req, res) => {
+    res.json(image_state);
+})
+
+app.get('/getstate/code', (req, res) => {
+    res.json(code_state);
+})
 
 //Socket
 io.on('connection', (socket) => {
     emit_list_of_users()
     socket.on('action', (params) => {
         clearInterval(timer);
+        if(params.action == "changescreen")
+            screen_state = params;
         io.of("/users").emit('receiveaction', params);
     })
     socket.on('qrcode', (params) => {
         io.emit('receiveqrcode', params);
     })
     socket.on('image', (params) => {
+        image_state = params;
         io.emit('loadImage', params);
+    })
+    socket.on('code', (params) => {
+        code_state = params;
+        io.emit('loadCode', params);
     })
     socket.on('distribute_functions', () => {
         clearInterval(timer);
