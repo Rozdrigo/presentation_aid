@@ -160,15 +160,15 @@ io.on('connection', (socket) => {
         steps_count = 0;
         let bomber_id = list_desarmers[Math.floor(Math.random() * list_desarmers.length)];
         tips.map( a => {
-            function randomize_tips(){
-                let rand_id = list_desarmers[Math.floor(Math.random() * list_desarmers.length)];
-                if(bomber_id != rand_id){
-                    io.of("/bomb").to(rand_id).emit("tip", a);
-                }
-                else
-                    randomize_tips();
+            (function randomize_tips() {
+                if(list_desarmers >= 2){
+                do {
+                    rand_id = list_desarmers[Math.floor(Math.random() * list_desarmers.length)]
+                } while (bomber_id === rand_id);
+
+                io.of("/bomb").to(rand_id).emit("tip", a)
             }
-            randomize_tips();
+            })()
         })
         io.of("/bomb").to(bomber_id).emit("bomber");
     })
