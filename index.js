@@ -115,7 +115,7 @@ app.get('/scripts/sound.min.js', (req, res) => {
 });
 
 app.get('/users', (req, res) => {
-    res.sendFile(__dirname + '/admin.html');
+    res.sendFile(__dirname + '/src/admin.html');
 });
 
 var screen_state;
