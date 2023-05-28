@@ -5,10 +5,10 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 const fileSystem = require('fs');
-const tips = require('./tips.json')
-const order = require('./order.json')
+const tips = require('./src/data/tips.json')
+const order = require('./src/data/order.json')
 
-const noise = require("./noise");
+const noise = require("./src/services/noise");
 const image = require("./src/services/image");
 
 var listUsers = [];
@@ -161,11 +161,13 @@ io.on('connection', (socket) => {
         let bomber_id = list_desarmers[Math.floor(Math.random() * list_desarmers.length)];
         tips.map( a => {
             (function randomize_tips() {
-                if(list_desarmers >= 2){
-                do {
-                    rand_id = list_desarmers[Math.floor(Math.random() * list_desarmers.length)]
-                } while (bomber_id === rand_id);
-
+                let counter = 0;
+                if(list_desarmers.length >= 2){
+                    do {
+                        rand_id = list_desarmers[Math.floor(Math.random() * list_desarmers.length)]
+                    } while (bomber_id == rand_id);
+                
+                console.log(bomber_id==rand_id, rand_id, a)
                 io.of("/bomb").to(rand_id).emit("tip", a)
             }
             })()
