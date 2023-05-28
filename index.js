@@ -9,7 +9,7 @@ const tips = require('./tips.json')
 const order = require('./order.json')
 
 const noise = require("./noise");
-const image = require("./image");
+const image = require("./src/services/image");
 
 var listUsers = [];
 var list_desarmers = [];
@@ -100,7 +100,7 @@ app.get('/ip', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/src/index.html');
 });
 
 app.get('/calculator', (req, res) => {

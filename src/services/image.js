@@ -16,17 +16,18 @@ map_colors = [
 ]
 
 function makeImage(vector) {
-    var imageName = "content/maps/" + Math.floor(Math.random() * 100000) + "map.jpg";
+    var imageName = `content/maps/${Math.floor(Math.random() * 100000)}map.jpg`;
     var size = vector[0].length;
 
     let image = new Jimp(size, size, 'black', (err) => {
         if (err) throw err;
     });
-
+    
     Jimp.read(image, (err, lenna) => {
         for (var y = 0; y < size; y++) {
             vector[y].map( (color, x) => {
-                if (err) throw err;
+                //if (err) throw err;
+                //console.log(err)
                 lenna.setPixelColor( map_colors[color], x, y);
             });
         }
