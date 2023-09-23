@@ -14,6 +14,8 @@ Os usuários podem interagir com jogos, painéis de controle individuais e parti
 
 https://github.com/Rozdrigo/presentation_aid/assets/60229463/93cbdbf9-3ba8-49bf-84d6-079f3d7167bd
 
+https://github.com/Rozdrigo/presentation_aid/assets/60229463/1a5a1263-7319-4269-b8e4-6149d5c9c8fa
+
 ### Dinâmica Coletiva:
 
 Um exemplo notável de dinâmica coletiva é a "dinâmica da bomba", na qual funções específicas são atribuídas a todos os participantes que acessam a aplicação.
@@ -22,6 +24,7 @@ Isso promove um trabalho em equipe, onde os participantes colaboram para resolve
 ### Usando o AID:
 
 O AID sendo utilizado no auxilio de uma apresentação na JODEV-2023 PACCE, Campus UFC Quixadá.
+
 ![1685121151257](https://github.com/Rozdrigo/presentation_aid/assets/60229463/51e629ab-e312-4190-bb5a-96555b7229a4)
 ![1685121151499](https://github.com/Rozdrigo/presentation_aid/assets/60229463/fadc67ce-686d-4244-aff9-30054dadc0e4)
 ![1685121151128](https://github.com/Rozdrigo/presentation_aid/assets/60229463/00b15dfa-71a7-47ab-a061-24391b6c9541)
